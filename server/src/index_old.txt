@@ -1,0 +1,54 @@
+//defining endpoints to people API as seem in class
+
+
+const express = require("express");
+const json = require("./json.js");
+
+const app = express();
+const host = "localhost";
+const port = 8080;
+
+app.use(express.static("public"));
+app.use(express.json());
+
+//Defining my GET method for ALL people
+app.get("/pessoas", (req, res) => {
+  const pessoasFiles = json.listJSON("../pessoas");
+  const pessoas = pessoasFiles.map((file) => jsonPath.readJSON(file));
+  console.log(pessoas);
+  res.json(pessoas);
+});
+
+//Defining my GET method for each person by ID
+app.get("/pessoas/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const pessoa = json.readJSON("../pessoas", `${id}.json`);
+  res.json(pessoa);
+});
+
+//Defining my POST method to input a new person
+app.post("/pessoas", (req, res) => {});
+
+//Defining my PUT method to overwhrite an existing person
+app.put("/pessoas/:id", (req, res) => {});
+
+//Defining my PATCH method to edit an existing person's property
+app.patch("/pessoas/:id", (req, res) => {});
+
+//Defining my DELETE method for an existing person by ID
+app.delete("/pessoas/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const pessoa = json.readJSON("../pessoas", `${id}.json`);
+  json.deleteJSON("../pessoas", `${id}.json`);
+  const response = {
+    sucess: true,
+    data: {
+      pessoa,
+    },
+  };
+  res.json(response);
+});
+
+app.listen(port, host, () => {
+  console.log(`Express.js server initialized on http://${host}:${port}`);
+});
