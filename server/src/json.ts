@@ -38,7 +38,7 @@ export function createJSON(
       JSON.stringify(jsonContent, null, indentSize)
     );
   } else {
-    throw new Error("Ja existe um arquivo nesse caminho!");
+    throw new Error("There's already a file on this path!");
   }
 }
 
